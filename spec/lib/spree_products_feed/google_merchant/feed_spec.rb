@@ -28,8 +28,10 @@ describe SpreeProductsFeed::GoogleMerchant::Feed do
 
   end
 
-  it 'initializes a new GoogleMerchant::Feed' do
-    expect(feed).to be_a(SpreeProductsFeed::GoogleMerchant::Feed)
+  describe '#initialize' do
+    it 'initializes a new GoogleMerchant::Feed' do
+      expect(feed).to be_a(SpreeProductsFeed::GoogleMerchant::Feed)
+    end
   end
 
   describe '#generate' do
@@ -41,7 +43,6 @@ describe SpreeProductsFeed::GoogleMerchant::Feed do
     end
 
     it 'generates a Google Merchand feed' do
-      puts @result
       expect(@result).to_not be_empty
     end
   end

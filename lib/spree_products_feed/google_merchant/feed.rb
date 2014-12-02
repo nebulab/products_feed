@@ -28,19 +28,22 @@ module SpreeProductsFeed::GoogleMerchant
 
           @variants.each do |variation|
             xml.item do
-              xml.tag! 'g:brand', variation.name.titleize
-              xml.tag! 'g:id', "#{variation.product.id}-#{variation.id}"
-              xml.tag! 'g:mpn', variation.product.name
+              xml.tag! 'g:id', "#{variation.sku}-#{variation.id}"
+              xml.tag! 'g:title', variation.name
+              xml.tag! 'g:description', CGI.escapeHTML(variation.product.description.try(:downcase))
+              xml.tag! 'g:link', Spree::Core::Engine.routes.url_helpers.product_url(variation.product, host: 'example.com')
+              xml.tag! 'g:image_link', 'http://favva.nculo/stocazz.png'
+              xml.tag! 'g:condition', 'new' # 'new' 'used' 'refurbished'
+              xml.tag! 'g:availability', 'in stock' #'in stock' 'out of stock' 'preorder'
+              xml.tag! 'g:price', Spree::Money.new(variation.price, currency: @options[:currency], symbol_before_without_space: false)
+
+              xml.tag! 'g:brand', variation.name.titleize # Brand of the item
+              xml.tag! 'g:gtin', variation.name.titleize # Global Trade Item Numbers
+              xml.tag! 'g:mpn', variation.name.titleize # Manufacturer Part Number
+
               xml.tag! 'g:item_group_id', variation.product.id
-              xml.title variation.name.titleize
-              xml.description CGI.escapeHTML(variation.product.description.try(:downcase))
               xml.tag! 'g:google_product_category', @options[:google_category]
               xml.tag! 'g:product_type', variation.product.taxons.first.name
-              xml.link  Spree::Core::Engine.routes.url_helpers.product_url(variation.product, host: 'example.com')
-              xml.tag! 'g:image_link', 'http://favva.nculo/stocazz.png'
-              xml.tag! 'g:condition', 'new'
-              xml.tag! 'g:availability', true
-              xml.tag! 'g:price', Spree::Money.new(variation.price, currency: @options[:currency], symbol_before_without_space: false)
             end
           end
         end
