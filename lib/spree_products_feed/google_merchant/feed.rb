@@ -15,9 +15,7 @@ module SpreeProductsFeed::GoogleMerchant
       }.merge(options)
     end
 
-    def generate
-      # TODO: change target
-      xml = Builder::XmlMarkup.new target: @options[:target]
+    def generate &block
       xml.instruct! :xml, version: '1.0'
 
       xml.rss(version: '2.0', 'xmlns:g' => 'http://base.google.com/ns/1.0') do
@@ -28,11 +26,23 @@ module SpreeProductsFeed::GoogleMerchant
 
           @items.each do |item|
             xml.item do
-              yield xml, item
+              yield self, item
+              # self.instance_eval(&block)
             end
           end
         end
       end
+    end
+
+    # TODO: keep track of missing required fields for feed
+    # validate their presence, then raise an exception
+    def field(name, value)
+      xml.tag! name, value
+    end
+
+    private
+    def xml
+      @xml ||= Builder::XmlMarkup.new target: @options[:target]
     end
   end
 end
