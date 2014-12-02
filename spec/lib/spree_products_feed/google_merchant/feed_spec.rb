@@ -35,15 +35,30 @@ describe SpreeProductsFeed::GoogleMerchant::Feed do
   end
 
   describe '#generate' do
-    before do
-      feed.generate
+    it 'generates a Google Merchand feed' do
+      feed.generate do |xml, item|
+        xml.tag! 'g:id', "#{item.sku}-#{item.id}"
+        xml.tag! 'g:title', item.name
+        xml.tag! 'g:description', CGI.escapeHTML(item.product.description.try(:downcase))
+        xml.tag! 'g:link', Spree::Core::Engine.routes.url_helpers.product_url(item.product, host: 'example.com')
+        xml.tag! 'g:image_link', 'http://favva.nculo/stocazz.png'
+        xml.tag! 'g:condition', 'new' # 'new' 'used' 'refurbished'
+        xml.tag! 'g:availability', 'in stock' #'in stock' 'out of stock' 'preorder'
+        xml.tag! 'g:price', Spree::Money.new(item.price, currency: @options[:currency], symbol_before_without_space: false)
+
+        xml.tag! 'g:brand', item.name.titleize # Brand of the item
+        xml.tag! 'g:gtin', item.name.titleize # Global Trade Item Numbers
+        xml.tag! 'g:mpn', item.name.titleize # Manufacturer Part Number
+
+        xml.tag! 'g:item_group_id', item.product.id
+        xml.tag! 'g:google_product_category', @options[:google_category]
+        xml.tag! 'g:product_type', item.product.taxons.first.name
+      end
 
       buffer.rewind
-      @result = buffer.read
-    end
+      result = buffer.read
 
-    it 'generates a Google Merchand feed' do
-      expect(@result).to_not be_empty
+      expect(result).to_not be_empty
     end
   end
 end
