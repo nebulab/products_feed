@@ -6,8 +6,8 @@
 .project
 .sass-cache
 coverage
-Gemfile.lock
 tmp
+Gemfile.lock
 nbproject
 pkg
 *.swp

@@ -1,5 +1,5 @@
 module SpreeProductsFeed::GoogleMerchant
-  class FeedGenerator
+  class Feed
 
     def initialize(variants, options={})
       @variants = variants
