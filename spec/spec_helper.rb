@@ -24,6 +24,7 @@ require 'spree/testing_support/capybara_ext'
 require 'spree/testing_support/controller_requests'
 require 'spree/testing_support/factories'
 require 'spree/testing_support/url_helpers'
+require 'spree/testing_support/preferences'
 
 # Requires factories defined in lib/spree_products_feed/factories.rb
 require 'spree_products_feed/factories'
