@@ -5,6 +5,7 @@ SimpleCov.start do
   add_group 'Libraries', 'lib'
 end
 
+
 # Configure Rails Environment
 ENV['RAILS_ENV'] = 'test'
 
@@ -25,6 +26,9 @@ require 'spree/testing_support/controller_requests'
 require 'spree/testing_support/factories'
 require 'spree/testing_support/url_helpers'
 require 'spree/testing_support/preferences'
+
+# disable warning
+StateMachine::Machine.ignore_method_conflicts = true
 
 # Requires factories defined in lib/spree_products_feed/factories.rb
 require 'spree_products_feed/factories'
