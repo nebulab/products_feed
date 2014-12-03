@@ -15,6 +15,8 @@ module ProductsFeed::GoogleMerchant
     end
 
     def generate &block
+      @required_fields_left = required_fields.clone
+
       xml.instruct! :xml, version: '1.0'
 
       xml.rss(version: '2.0', 'xmlns:g' => 'http://base.google.com/ns/1.0') do
@@ -30,17 +32,31 @@ module ProductsFeed::GoogleMerchant
           end
         end
       end
+
+      if @required_fields_left.any?
+        raise ProductsFeed::MissingMandatoryParamError, "The following fields are missing:\n#{@required_fields_left.join(', ')}"
+      end
+
+      xml
     end
 
-    # TODO: keep track of missing required fields for feed
-    # validate their presence, then raise an exception
     def field(name, value)
+      @required_fields_left.delete name
+
       xml.tag! name, value
     end
 
     private
     def xml
       @xml ||= Builder::XmlMarkup.new target: @target
+    end
+
+    def required_fields
+      @required_fields ||= [
+        'g:id', 'g:title', 'g:description', 'g:link', 'g:image_link',
+        'g:condition', 'g:availability', 'g:price', 'g:brand',
+        'g:gtin', 'g:mpn'
+      ]
     end
   end
 end

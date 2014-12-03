@@ -33,57 +33,70 @@ describe ProductsFeed::GoogleMerchant::Feed do
   end
 
   describe '#generate' do
-    let(:subject) { buffer.rewind && buffer.read }
+    context 'with all correct data' do
+      let(:subject) { buffer.rewind && buffer.read }
+      let(:generator) {
+        google_merchant.generate do |xml, item|
+          # mandatory fields
+          xml.field 'g:id', item[:id]
+          xml.field 'g:title', item[:name]
+          xml.field 'g:description', item[:description]
+          xml.field 'g:link', item[:link]
+          xml.field 'g:image_link', item[:image_link]
+          xml.field 'g:condition', 'new' # 'new' 'used' 'refurbished'
+          xml.field 'g:availability', 'in stock' #'in stock' 'out of stock' 'preorder'
+          xml.field 'g:price', "#{item[:price]} USD"
+          xml.field 'g:brand', item[:brand] # Brand of the item
+          xml.field 'g:gtin', item[:gtin] # Global Trade Item Numbers
+          xml.field 'g:mpn', item[:mpn] # Manufacturer Part Number
 
-    before do
-      google_merchant.generate do |xml, item|
-        # mandatory fields
-        xml.field 'g:id', item[:id]
-        xml.field 'g:title', item[:name]
-        xml.field 'g:description', item[:description]
-        xml.field 'g:link', item[:link]
-        xml.field 'g:image_link', item[:image_link]
-        xml.field 'g:condition', 'new' # 'new' 'used' 'refurbished'
-        xml.field 'g:availability', 'in stock' #'in stock' 'out of stock' 'preorder'
-        xml.field 'g:price', "#{item[:price]} USD"
-        xml.field 'g:brand', item[:brand] # Brand of the item
-        xml.field 'g:gtin', item[:gtin] # Global Trade Item Numbers
-        xml.field 'g:mpn', item[:mpn] # Manufacturer Part Number
+          # optional fields
+          xml.field 'g:item_group_id', 'GROUP_ID'
+          xml.field 'g:google_product_category', 'Software > Digital Goods & Currency'
+          xml.field 'g:product_type', 'PRODUCT_TYPE'
+        end
+      }
 
-        # optional fields
-        xml.field 'g:item_group_id', 'GROUP_ID'
-        xml.field 'g:google_product_category', 'Software > Digital Goods & Currency'
-        xml.field 'g:product_type', 'PRODUCT_TYPE'
+      before do
+        generator
+        subject
       end
 
-      subject
+      it 'generates a Google Merchant feed' do
+        is_expected.to_not be_empty
+      end
+
+      context 'it generates correct Google Merchant XML markup' do
+        let(:item) { items.first }
+        it { is_expected.to have_xml 'title', options[:title] }
+        it { is_expected.to have_xml 'description', options[:description] }
+        it { is_expected.to have_xml 'link', options[:link] }
+        it { is_expected.to have_xml 'item > g|id', item[:id] }
+        it { is_expected.to have_xml 'item > g|title', item[:title] }
+        it { is_expected.to have_xml 'item > g|description', item[:description] }
+        it { is_expected.to have_xml 'item > g|link', item[:link] }
+        it { is_expected.to have_xml 'item > g|image_link', item[:image_link] }
+        it { is_expected.to have_xml 'item > g|condition', item[:condition] }
+        it { is_expected.to have_xml 'item > g|availability', item[:availability] }
+        it { is_expected.to have_xml 'item > g|price', "#{item[:price]} USD" }
+        it { is_expected.to have_xml 'item > g|brand', item[:brand] }
+        it { is_expected.to have_xml 'item > g|gtin', item[:gtin] }
+        it { is_expected.to have_xml 'item > g|mpn', item[:mpn] }
+        it { is_expected.to have_xml 'item > g|item_group_id', 'GROUP_ID' }
+        it { is_expected.to have_xml 'item > g|product_type', 'PRODUCT_TYPE' }
+      end
     end
 
-    it 'generates a Google Merchant feed' do
-      is_expected.to_not be_empty
-    end
+    context 'with missing required fields' do
 
-    context 'it generates correct Google Merchant XML markup' do
-      let(:item) { items.first }
-
-      it { is_expected.to have_xml 'title', options[:title] }
-      it { is_expected.to have_xml 'description', options[:description] }
-      it { is_expected.to have_xml 'link', options[:link] }
-
-      it { is_expected.to have_xml 'item > g|id', item[:id] }
-      it { is_expected.to have_xml 'item > g|title', item[:title] }
-      it { is_expected.to have_xml 'item > g|description', item[:description] }
-      it { is_expected.to have_xml 'item > g|link', item[:link] }
-      it { is_expected.to have_xml 'item > g|image_link', item[:image_link] }
-      it { is_expected.to have_xml 'item > g|condition', item[:condition] }
-      it { is_expected.to have_xml 'item > g|availability', item[:availability] }
-      it { is_expected.to have_xml 'item > g|price', "#{item[:price]} USD" }
-      it { is_expected.to have_xml 'item > g|brand', item[:brand] }
-      it { is_expected.to have_xml 'item > g|gtin', item[:gtin] }
-      it { is_expected.to have_xml 'item > g|mpn', item[:mpn] }
-      it { is_expected.to have_xml 'item > g|item_group_id', 'GROUP_ID' }
-      it { is_expected.to have_xml 'item > g|product_type', 'PRODUCT_TYPE' }
-
+      it 'raises Exception' do
+        err_message = "The following fields are missing:\ng:title, g:description, g:link, g:image_link, g:condition, g:availability, g:price, g:brand, g:gtin, g:mpn"
+        expect {
+          google_merchant.generate do |xml, item|
+            xml.field 'g:id', item[:id]
+          end
+        }.to raise_error(ProductsFeed::MissingMandatoryParamError).with_message(err_message)
+      end
     end
   end
 end

@@ -8,7 +8,6 @@ RSpec::Matchers.define :have_xml do |selector, text|
   match do |body|
     doc = Nokogiri::XML(body)
     nodes = doc.search(selector)
-    # nodes.empty?.should be_false
     expect(nodes).to_not be_empty
 
     if text
