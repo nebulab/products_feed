@@ -88,8 +88,7 @@ describe ProductsFeed::GoogleMerchant::Feed do
     end
 
     context 'with missing required fields' do
-
-      it 'raises Exception' do
+      it 'raises error' do
         err_message = "The following fields are missing:\ng:title, g:description, g:link, g:image_link, g:condition, g:availability, g:price, g:brand, g:gtin, g:mpn"
         expect {
           google_merchant.generate do |xml, item|
