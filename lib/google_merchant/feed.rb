@@ -1,6 +1,6 @@
 require 'builder'
 
-module SpreeProductsFeed::GoogleMerchant
+module ProductsFeed::GoogleMerchant
   class Feed
 
     def initialize(items, target=STDOUT, options={})

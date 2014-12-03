@@ -1,8 +1,7 @@
 require 'spec_helper'
 
-describe SpreeProductsFeed::GoogleMerchant::Feed do
+describe ProductsFeed::GoogleMerchant::Feed do
   let(:buffer) { StringIO.new }
-  # let(:product) { create :product, taxons: [create(:taxon)] }
   let(:items) {[
     {
       id: '1234',
@@ -17,7 +16,7 @@ describe SpreeProductsFeed::GoogleMerchant::Feed do
     }
   ]}
   let(:feed) {
-    SpreeProductsFeed::GoogleMerchant::Feed.new(
+    ProductsFeed::GoogleMerchant::Feed.new(
       items,
       buffer,
       {
@@ -30,7 +29,7 @@ describe SpreeProductsFeed::GoogleMerchant::Feed do
 
   describe '#initialize' do
     it 'initializes a new GoogleMerchant::Feed' do
-      expect(feed).to be_a(SpreeProductsFeed::GoogleMerchant::Feed)
+      expect(feed).to be_a(ProductsFeed::GoogleMerchant::Feed)
     end
   end
 

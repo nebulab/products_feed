@@ -1,8 +1,8 @@
 # encoding: UTF-8
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
-  s.name        = 'spree_products_feed'
-  s.version     = '2.4.1'
+  s.name        = 'products_feed'
+  s.version     = '0.0.1'
   s.summary     = 'Add gem summary here'
   s.description = 'Add (optional) gem description here'
   s.required_ruby_version = '>= 1.9.3'
@@ -19,6 +19,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'builder'
 
   s.add_development_dependency 'capybara', '~> 2.4'
-  # s.add_development_dependency 'rspec-rails',  '~> 3.1'
+  s.add_development_dependency 'rspec',  '~> 3.1'
   s.add_development_dependency 'simplecov'
 end

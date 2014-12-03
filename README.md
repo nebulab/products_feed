@@ -1,4 +1,4 @@
-SpreeProductsFeed
+ProductsFeed
 =================
 
 Introduction goes here.
@@ -6,17 +6,17 @@ Introduction goes here.
 Installation
 ------------
 
-Add spree_products_feed to your Gemfile:
+Add products_feed to your Gemfile:
 
 ```ruby
-gem 'spree_products_feed'
+gem 'products_feed'
 ```
 
 Bundle your dependencies and run the installation generator:
 
 ```shell
 bundle
-bundle exec rails g spree_products_feed:install
+bundle exec rails g product_feed:install
 ```
 
 Testing
@@ -33,7 +33,7 @@ When testing your applications integration with this extension you may use it's 
 Simply add this require statement to your spec_helper:
 
 ```ruby
-require 'spree_products_feed/factories'
+require 'products_feed/factories'
 ```
 
 Copyright (c) 2014 [name of extension creator], released under the New BSD License

@@ -4,7 +4,7 @@ SimpleCov.start do
   add_group 'Libraries', 'lib'
 end
 
-require File.join(File.dirname(__FILE__), '../lib/spree_products_feed')
+require File.join(File.dirname(__FILE__), '../lib/products_feed')
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
