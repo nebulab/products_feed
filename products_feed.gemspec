@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'builder'
 
-  s.add_development_dependency 'capybara', '~> 2.4'
+  s.add_development_dependency 'nokogiri'
   s.add_development_dependency 'rspec',  '~> 3.1'
   s.add_development_dependency 'simplecov'
 end

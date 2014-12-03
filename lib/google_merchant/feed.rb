@@ -26,7 +26,6 @@ module ProductsFeed::GoogleMerchant
           @items.each do |item|
             xml.item do
               yield self, item
-              # self.instance_eval(&block)
             end
           end
         end
