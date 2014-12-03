@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe SpreeProductsFeed::GoogleMerchant::Feed do
   let(:buffer) { StringIO.new }
-  let(:product) { create :product, taxons: [create(:taxon)] }
+  # let(:product) { create :product, taxons: [create(:taxon)] }
   let(:items) {[
     {
       id: '1234',
