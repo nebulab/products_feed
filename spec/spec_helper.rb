@@ -1,7 +1,7 @@
 # Run Coverage report
 require 'simplecov'
 SimpleCov.start do
-  add_group 'Libraries', 'lib'
+  add_filter "/spec/"
 end
 
 require File.join(File.dirname(__FILE__), '../lib/products_feed')

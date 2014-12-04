@@ -48,7 +48,7 @@ module ProductsFeed::GoogleMerchant
 
     private
     def xml
-      @xml ||= Builder::XmlMarkup.new target: @target
+      @xml ||= Builder::XmlMarkup.new target: @target, indent: 2
     end
 
     def required_fields
