@@ -48,10 +48,10 @@ describe ProductsFeed::GoogleMerchant::Feed do
           xml.field 'g:availability', 'in stock' #'in stock' 'out of stock' 'preorder'
           xml.field 'g:price', "#{item[:price]} USD"
           xml.field 'g:brand', item[:brand] # Brand of the item
-          xml.field 'g:gtin', item[:gtin] # Global Trade Item Numbers
           xml.field 'g:mpn', item[:mpn] # Manufacturer Part Number
 
           # optional fields
+          xml.field 'g:gtin', item[:gtin] # Global Trade Item Numbers
           xml.field 'g:item_group_id', 'GROUP_ID'
           xml.field 'g:google_product_category', 'Software > Digital Goods & Currency'
           xml.field 'g:product_type', 'PRODUCT_TYPE'
@@ -90,7 +90,7 @@ describe ProductsFeed::GoogleMerchant::Feed do
 
     context 'with missing required fields' do
       it 'raises error' do
-        err_message = "The following fields are missing:\ng:title, g:description, g:link, g:image_link, g:condition, g:availability, g:price, g:brand, g:gtin, g:mpn"
+        err_message = "The following fields are missing:\ng:title, g:description, g:link, g:image_link, g:condition, g:availability, g:price, g:brand, g:mpn"
         expect {
           google_merchant.generate do |xml, item|
             xml.field 'g:id', item[:id]

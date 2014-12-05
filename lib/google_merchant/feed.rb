@@ -55,7 +55,7 @@ module ProductsFeed::GoogleMerchant
       @required_fields ||= [
         'g:id', 'g:title', 'g:description', 'g:link', 'g:image_link',
         'g:condition', 'g:availability', 'g:price', 'g:brand',
-        'g:gtin', 'g:mpn'
+        'g:mpn'
       ]
     end
   end
