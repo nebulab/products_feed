@@ -22,7 +22,7 @@ module ProductsFeed
         provider: 'AWS',
         aws_access_key_id: @s3_credentials[:aws_access_key_id],
         aws_secret_access_key: @s3_credentials[:aws_secret_access_key],
-        region: @s3_credentials[:region]
+        region: (@s3_credentials[:region] || 'us-east-1')
       )
 
       @bucket = connection.directories.get(@s3_credentials[:bucket]) ||
