@@ -9,7 +9,7 @@ module ProductsFeed
     end
 
     def perform
-      remote_file.body = @file.read
+      remote_file.body = @file
       remote_file.save
     end
 
