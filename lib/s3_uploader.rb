@@ -1,3 +1,5 @@
+require 'fog'
+
 module ProductsFeed
   class S3Uploader
     def initialize(file, remote_path, s3_credentials)
