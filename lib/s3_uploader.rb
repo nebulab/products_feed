@@ -20,7 +20,7 @@ module ProductsFeed
     def bucket
       return @bucket if @bucket
 
-      connection = Fog::Storage.new(
+      connection = ::Fog::Storage.new(
         provider: 'AWS',
         aws_access_key_id: @s3_credentials[:aws_access_key_id],
         aws_secret_access_key: @s3_credentials[:aws_secret_access_key],
