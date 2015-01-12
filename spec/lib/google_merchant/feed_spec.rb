@@ -40,9 +40,9 @@ describe ProductsFeed::GoogleMerchant::Feed do
         google_merchant.generate do |xml, item|
           # mandatory fields
           xml.field 'g:id', item[:id]
-          xml.field 'g:title', item[:name]
-          xml.field 'g:description', item[:description]
-          xml.field 'g:link', item[:link]
+          xml.field 'title', item[:name]
+          xml.field 'description', item[:description]
+          xml.field 'link', item[:link]
           xml.field 'g:image_link', item[:image_link]
           xml.field 'g:condition', 'new' # 'new' 'used' 'refurbished'
           xml.field 'g:availability', 'in stock' #'in stock' 'out of stock' 'preorder'
@@ -69,13 +69,13 @@ describe ProductsFeed::GoogleMerchant::Feed do
 
       context 'it generates correct Google Merchant XML markup' do
         let(:item) { items.first }
-        it { is_expected.to have_xml 'title', options[:title] }
-        it { is_expected.to have_xml 'description', options[:description] }
-        it { is_expected.to have_xml 'link', options[:link] }
+        it { is_expected.to have_xml 'channel > title', options[:title] }
+        it { is_expected.to have_xml 'channel > description', options[:description] }
+        it { is_expected.to have_xml 'channel > link', options[:link] }
         it { is_expected.to have_xml 'item > g|id', item[:id] }
-        it { is_expected.to have_xml 'item > g|title', item[:title] }
-        it { is_expected.to have_xml 'item > g|description', item[:description] }
-        it { is_expected.to have_xml 'item > g|link', item[:link] }
+        it { is_expected.to have_xml 'item > title', item[:title] }
+        it { is_expected.to have_xml 'item > description', item[:description] }
+        it { is_expected.to have_xml 'item > link', item[:link] }
         it { is_expected.to have_xml 'item > g|image_link', item[:image_link] }
         it { is_expected.to have_xml 'item > g|condition', item[:condition] }
         it { is_expected.to have_xml 'item > g|availability', item[:availability] }
@@ -90,7 +90,7 @@ describe ProductsFeed::GoogleMerchant::Feed do
 
     context 'with missing required fields' do
       it 'raises error' do
-        err_message = "The following fields are missing:\ng:title, g:description, g:link, g:image_link, g:condition, g:availability, g:price, g:brand, g:mpn"
+        err_message = "The following fields are missing:\ntitle, description, link, g:image_link, g:condition, g:availability, g:price, g:brand, g:mpn"
         expect {
           google_merchant.generate do |xml, item|
             xml.field 'g:id', item[:id]
