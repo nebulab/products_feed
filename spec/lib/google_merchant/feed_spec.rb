@@ -55,6 +55,10 @@ describe ProductsFeed::GoogleMerchant::Feed do
           xml.field 'g:item_group_id', 'GROUP_ID'
           xml.field 'g:google_product_category', 'Software > Digital Goods & Currency'
           xml.field 'g:product_type', 'PRODUCT_TYPE'
+          xml.field 'g:shipping' do |sub|
+            sub.field 'g:country', 'US'
+            sub.field 'g:price', '10 USD'
+          end
         end
       }
 
@@ -85,6 +89,8 @@ describe ProductsFeed::GoogleMerchant::Feed do
         it { is_expected.to have_xml 'item > g|mpn', item[:mpn] }
         it { is_expected.to have_xml 'item > g|item_group_id', 'GROUP_ID' }
         it { is_expected.to have_xml 'item > g|product_type', 'PRODUCT_TYPE' }
+        it { is_expected.to have_xml 'item > g|shipping > g|country', 'US' }
+        it { is_expected.to have_xml 'item > g|shipping > g|price', '10 USD' }
       end
     end
 

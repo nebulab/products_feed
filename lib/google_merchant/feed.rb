@@ -40,10 +40,16 @@ module ProductsFeed::GoogleMerchant
       xml
     end
 
-    def field(name, value)
+    def field(name, value=nil)
       @required_fields_left.delete name
 
-      xml.tag! name, value
+      if block_given?
+        xml.tag! name do
+          yield self
+        end
+      else
+        xml.tag! name, value
+      end
     end
 
     private
