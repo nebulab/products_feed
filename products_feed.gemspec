@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.requirements << 'none'
 
   s.add_dependency 'builder'
-  s.add_dependency 'fog'
+  s.add_dependency 'fog-aws'
 
   s.add_development_dependency 'nokogiri'
   s.add_development_dependency 'rspec',  '~> 3.1'
