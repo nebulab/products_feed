@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'fog'
+require 'fog-aws'
 
 describe ProductsFeed::GoogleMerchant::Feed do
   let(:buffer) { StringIO.new }
