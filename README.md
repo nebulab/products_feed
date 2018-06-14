@@ -27,15 +27,19 @@ accepts the following parameters:
 * `output`: an `IO` object (eg: a `File` or a `Buffer`)
 * `options`: an `Hash` with `title`,`description` and `link` keys to represent site infos
 
+```ruby
+google_merchant = ProductsFeed::GoogleMerchant::Feed.new(items, output, options)
+```
+
+Example:
 
 ```ruby
-
-google_merchant = ProductsFeed::GoogleMerchant::Feed.new(items, output, options)
+google_merchant = ProductsFeed::GoogleMerchant::Feed.new(Product.all)
 ```
 
 Then call `#generate` method and pass it a block. The block will iterate your items
 
-```ruby```
+```ruby
 google_merchant.generate do |doc, item|
   # mandatory fields. if something is missing it will raise an excption
   doc.field 'g:id', item[:id]
@@ -44,7 +48,7 @@ google_merchant.generate do |doc, item|
   doc.field 'g:link', item[:link]
   doc.field 'g:image_link', item[:image_link]
   doc.field 'g:condition', 'new' # 'new' 'used' 'refurbished'
-  doc.field 'g:availability', 'in stock' #'in stock' 'out of stock' 'preorder'
+  doc.field 'g:availability', 'in stock' # 'in stock' 'out of stock' 'preorder'
   doc.field 'g:price', "#{item[:price]} USD"
   doc.field 'g:brand', item[:brand] # Brand of the item
   doc.field 'g:gtin', item[:gtin] # Global Trade Item Numbers
@@ -57,13 +61,12 @@ google_merchant.generate do |doc, item|
 end
 ```
 
-
 Testing
 -------
 
 First bundle your dependencies, then run `rake`.
 
-```shell
+```bash
 bundle
 bundle exec rake
 ```
