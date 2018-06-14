@@ -1,4 +1,4 @@
-require 'fog'
+require 'fog-aws'
 
 module ProductsFeed
   class S3Uploader
